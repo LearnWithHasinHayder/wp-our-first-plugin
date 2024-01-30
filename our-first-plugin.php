@@ -17,6 +17,8 @@ class Our_First_Class {
     public function init() {
         add_filter('the_content', array($this,'change_content'));
         add_filter('the_title', array($this,'change_title'));
+        add_filter('excerpt_length', array($this,'change_excerpt_length'));
+        add_action('wp_footer',[$this,'add_footer_content'],999);
     }
 
     public function change_content($content) {
@@ -39,8 +41,19 @@ class Our_First_Class {
     }
 
     function change_title($title) {
+        if(is_admin()){
+            return $title;
+        }
         $title = $title . "!!!!";
         return $title;
+    }
+
+    function change_excerpt_length($number){
+        return 20;
+    }
+
+    function add_footer_content(){
+        // echo "<script>alert('Hello World');</script>";
     }
 }
 
